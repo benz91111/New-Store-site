@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Store — Premium Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --cream: #F7F3EC;
+            --white-warm: #FFFFFF;
+            --gold-soft: #E6D5B8;
+            --amber: #D6B98C;
+            --brown-elegant: #3B342D;
+            --gold-glow: rgba(214, 185, 140, 0.4);
+        }
+        body {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Inter', sans-serif;
+            background: #1a1510;
+            cursor: default;
+        }
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-image {
+            position: absolute;
+            inset: -5%;
+            width: 110%;
+            height: 110%;
+            background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?w=1920&q=80&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: blur(2px) brightness(0.75) saturate(1.15);
+            transform: scale(1.05);
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(59, 52, 45, 0.15) 0%,
+                rgba(59, 52, 45, 0.05) 30%,
+                rgba(59, 52, 45, 0.2) 70%,
+                rgba(59, 52, 45, 0.45) 100%
+            );
+            z-index: 1;
+        }
+        .vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 40%,
+                rgba(26, 21, 16, 0.3) 70%,
+                rgba(26, 21, 16, 0.6) 100%
+            );
+            z-index: 2;
+            pointer-events: none;
+        }
+        .golden-horizon {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: radial-gradient(
+                ellipse 80% 50% at 50% 100%,
+                rgba(214, 185, 140, 0.25) 0%,
+                rgba(230, 213, 184, 0.1) 40%,
+                transparent 70%
+            );
+            z-index: 2;
+            pointer-events: none;
+            animation: horizonPulse 8s ease-in-out infinite;
+        }
+        @keyframes horizonPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        .sun-rays {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .ray {
+            position: absolute;
+            top: -20%;
+            width: 2px;
+            height: 140%;
+            background: linear-gradient(
+                180deg,
+                rgba(247, 243, 236, 0) 0%,
+                rgba(247, 243, 236, 0.08) 20%,
+                rgba(230, 213, 184, 0.15) 50%,
+                rgba(247, 243, 236, 0.05) 80%,
+                rgba(247, 243, 236, 0) 100%
+            );
+            transform-origin: top center;
+            animation: rayShimmer 6s ease-in-out infinite;
+            filter: blur(1px);
+        }
+        .ray:nth-child(1) { left: 25%; transform: rotate(-18deg); animation-delay: 0s; }
+        .ray:nth-child(2) { left: 35%; transform: rotate(-8deg); animation-delay: 1.5s; width: 3px; }
+        .ray:nth-child(3) { left: 48%; transform: rotate(2deg); animation-delay: 3s; width: 2.5px; }
+        .ray:nth-child(4) { left: 62%; transform: rotate(12deg); animation-delay: 0.8s; }
+        .ray:nth-child(5) { left: 75%; transform: rotate(22deg); animation-delay: 2.2s; width: 3px; }
+        @keyframes rayShimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        .particles-container {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(247, 243, 236, 0.6);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+        }
+        .leaves-container {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        .leaf {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            opacity: 0.85;
+            filter: drop-shadow(0 2px 4px rgba(59, 52, 45, 0.2));
+            animation: fallLeaf linear infinite;
+            transform-style: preserve-3d;
+        }
+        .leaf svg {
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes fallLeaf {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(0.8);
+                opacity: 0;
+            }
+            5% { opacity: 0.85; }
+            25% { transform: translateY(25vh) translateX(40px) rotateX(45deg) rotateY(30deg) rotateZ(90deg) scale(1); }
+            50% { transform: translateY(50vh) translateX(-20px) rotateX(90deg) rotateY(60deg) rotateZ(180deg) scale(0.9); }
+            75% { transform: translateY(75vh) translateX(30px) rotateX(135deg) rotateY(90deg) rotateZ(270deg) scale(1); }
+            95% { opacity: 0.85; }
+            100% {
+                transform: translateY(110vh) translateX(-10px) rotateX(180deg) rotateY(120deg) rotateZ(360deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+        .wind-leaf {
+            animation: windLeaf linear infinite;
+        }
+        @keyframes windLeaf {
+            0% { transform: translateX(-5vw) translateY(60vh) rotateZ(-10deg); opacity: 0; }
+            15% { opacity: 0.7; }
+            50% { transform: translateX(55vw) translateY(55vh) rotateZ(15deg); }
+            85% { opacity: 0.7; }
+            100% { transform: translateX(105vw) translateY(50vh) rotateZ(-5deg); opacity: 0; }
+        }
+        .main-content {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--cream);
+            text-shadow: 0 2px 30px rgba(59, 52, 45, 0.3), 0 0 80px rgba(214, 185, 140, 0.15);
+            line-height: 1.1;
+            position: relative;
+        }
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+            opacity: 0.6;
+        }
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold-soft);
+            margin-top: 1.5rem;
+            opacity: 0.7;
+            animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cta-container {
+            animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.9s both;
+        }
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 48px;
+            background: rgba(247, 243, 236, 0.08);
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
+            border: 1px solid rgba(230, 213, 184, 0.25);
+            border-radius: 16px;
+            color: var(--cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow:
+                0 4px 24px rgba(59, 52, 45, 0.2),
+                0 0 0 1px rgba(230, 213, 184, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .discord-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(214, 185, 140, 0.15) 0%,
+                transparent 50%,
+                rgba(214, 185, 140, 0.08) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .discord-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at 30% 30%,
+                rgba(230, 213, 184, 0.15) 0%,
+                transparent 60%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .discord-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            background: rgba(247, 243, 236, 0.12);
+            border-color: rgba(230, 213, 184, 0.4);
+            box-shadow:
+                0 8px 40px rgba(59, 52, 45, 0.3),
+                0 0 60px rgba(214, 185, 140, 0.15),
+                0 0 0 1px rgba(230, 213, 184, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        .discord-btn:hover::before,
+        .discord-btn:hover::after {
+            opacity: 1;
+        }
+        .discord-btn:active {
+            transform: translateY(0) scale(0.98);
+            transition: all 0.2s ease;
+        }
+        .discord-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            opacity: 0.9;
+            transition: transform 0.4s ease;
+        }
+        .discord-btn:hover svg {
+            transform: scale(1.1);
+        }
+        .discord-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        .footer {
+            position: fixed;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+            animation: fadeInUp 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.5s both;
+        }
+        .footer-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: var(--cream);
+            opacity: 0.3;
+            text-transform: uppercase;
+        }
+        .bottom-fade {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to top, rgba(26, 21, 16, 0.4), transparent);
+            z-index: 5;
+            pointer-events: none;
+        }
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+        .audio-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 28px;
+            z-index: 20;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(247, 243, 236, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(230, 213, 184, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeInUp 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s both;
+        }
+        .audio-toggle:hover {
+            background: rgba(247, 243, 236, 0.12);
+            border-color: rgba(230, 213, 184, 0.4);
+            transform: scale(1.1);
+        }
+        .audio-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--gold-soft);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .audio-toggle.playing svg {
+            opacity: 1;
+            fill: var(--cream);
+        }
+        .audio-tooltip {
+            position: absolute;
+            bottom: 44px;
+            right: 0;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: var(--gold-soft);
+            opacity: 0;
+            transform: translateY(4px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .audio-toggle:hover .audio-tooltip {
+            opacity: 0.6;
+            transform: translateY(0);
+        }
+        .audio-visualizer {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 12px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .audio-toggle.playing .audio-visualizer {
+            opacity: 0.5;
+        }
+        .audio-bar {
+            width: 2px;
+            background: var(--gold-soft);
+            border-radius: 1px;
+            animation: audioBar 1.2s ease-in-out infinite;
+        }
+        .audio-bar:nth-child(1) { height: 4px; animation-delay: 0s; }
+        .audio-bar:nth-child(2) { height: 8px; animation-delay: 0.2s; }
+        .audio-bar:nth-child(3) { height: 6px; animation-delay: 0.4s; }
+        .audio-bar:nth-child(4) { height: 10px; animation-delay: 0.1s; }
+        .audio-bar:nth-child(5) { height: 5px; animation-delay: 0.3s; }
+        @keyframes audioBar {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.4); }
+        }
+        @media (max-width: 640px) {
+            .discord-btn { padding: 16px 36px; font-size: 0.9rem; }
+            .logo { letter-spacing: 0.05em; }
+            .audio-toggle { bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-container">
+        <div class="bg-image" id="bgImage"></div>
+        <div class="bg-overlay"></div>
+        <div class="golden-horizon"></div>
+        <div class="vignette"></div>
+        <div class="sun-rays">
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+    </div>
+
+    <div class="noise-overlay"></div>
+    <div class="particles-container" id="particles"></div>
+    <div class="leaves-container" id="leaves"></div>
+    <div class="bottom-fade"></div>
+
+    <main class="main-content">
+        <div class="logo-container">
+            <h1 class="logo">New Store</h1>
+            <p class="tagline">Experiência Digital Premium</p>
+        </div>
+        <div class="cta-container">
+            <a href="https://discord.gg/uWMxZchU7v" target="_blank" rel="noopener noreferrer" class="discord-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+                <span>Entrar no Discord</span>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p class="footer-text">© 2026 New Store</p>
+    </footer>
+
+    <div class="audio-toggle" id="audioToggle" title="Golden Brown — Love X Story (slowed)">
+        <span class="audio-tooltip">Golden Brown · Love X Story</span>
+        <svg id="audioIconOff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>
+        <svg id="audioIconOn" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <div class="audio-visualizer">
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const bgImage = document.getElementById('bgImage');
+            let mouseX = 0, mouseY = 0;
+            let currentX = 0, currentY = 0;
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            });
+            function animateParallax() {
+                currentX += (mouseX - currentX) * 0.05;
+                currentY += (mouseY - currentY) * 0.05;
+                bgImage.style.transform = `scale(1.05) translate(${currentX * -15}px, ${currentY * -15}px)`;
+                requestAnimationFrame(animateParallax);
+            }
+            animateParallax();
+
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 35;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                p.style.animationDelay = Math.random() * 15 + 's';
+                p.style.width = (Math.random() * 3 + 1) + 'px';
+                p.style.height = p.style.width;
+                p.style.opacity = Math.random() * 0.5 + 0.2;
+                particlesContainer.appendChild(p);
+            }
+
+            const leavesContainer = document.getElementById('leaves');
+            const leafColors = ['#D4A574', '#C8956C', '#B8835A', '#E6C9A0', '#D6B98C', '#C9A87C', '#B8956A'];
+            const leafSVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,11,9,17,8Z" fill="COLOR"/></svg>`;
+            const fallingLeafCount = 12;
+            for (let i = 0; i < fallingLeafCount; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDuration = (Math.random() * 12 + 10) + 's';
+                leaf.style.animationDelay = Math.random() * 15 + 's';
+                leaf.style.width = (Math.random() * 16 + 14) + 'px';
+                leaf.style.height = leaf.style.width;
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                leaf.innerHTML = leafSVG.replace('COLOR', color);
+                leavesContainer.appendChild(leaf);
+            }
+            const windLeafCount = 4;
+            for (let i = 0; i < windLeafCount; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf wind-leaf';
+                leaf.style.top = (Math.random() * 40 + 50) + '%';
+                leaf.style.animationDuration = (Math.random() * 8 + 12) + 's';
+                leaf.style.animationDelay = Math.random() * 10 + 's';
+                leaf.style.width = (Math.random() * 12 + 10) + 'px';
+                leaf.style.height = leaf.style.width;
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                leaf.innerHTML = leafSVG.replace('COLOR', color);
+                leavesContainer.appendChild(leaf);
+            }
+
+            // Audio toggle - loads golden-brown.mp3 from same folder
+            const audioToggle = document.getElementById('audioToggle');
+            const iconOff = document.getElementById('audioIconOff');
+            const iconOn = document.getElementById('audioIconOn');
+            let audio = null;
+            let isPlaying = false;
+
+            audioToggle.addEventListener('click', () => {
+                if (!audio) {
+                    audio = new Audio('golden-brown.mp3');
+                    audio.loop = true;
+                    audio.volume = 0.08;
+                }
+                if (isPlaying) {
+                    audio.pause();
+                    iconOff.style.display = 'block';
+                    iconOn.style.display = 'none';
+                    audioToggle.classList.remove('playing');
+                } else {
+                    audio.play().catch(() => {});
+                    iconOff.style.display = 'none';
+                    iconOn.style.display = 'block';
+                    audioToggle.classList.add('playing');
+                }
+                isPlaying = !isPlaying;
+            });
+        })();
+    </script>
+</body>
+</html>
